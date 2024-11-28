@@ -1,6 +1,7 @@
-package com.larandvik.webapp.storage;
+package com.larandvik.webapp;
 
 import com.larandvik.webapp.model.Resume;
+import com.larandvik.webapp.storage.ArrayStorage;
 
 /**
  * Test for your com.larandvik.webapp.storage.ArrayStorage implementation
