@@ -2,11 +2,12 @@ package com.larandvik.webapp.storage;
 
 import com.larandvik.webapp.exception.ExistStorageException;
 import com.larandvik.webapp.exception.NotExistStorageException;
-import com.larandvik.webapp.model.Resume;
+import com.larandvik.webapp.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,17 +15,48 @@ abstract class AbstractStorageTest {
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid_1";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
-
     private static final String UUID_2 = "uuid_2";
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
-
     private static final String UUID_3 = "uuid_3";
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
-
     private static final String UUID_4 = "uuid_4";
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Name4");
 
+    private static final Resume R1;
+    private static final Resume R2;
+    private static final Resume R3;
+    private static final Resume R4;
+
+    static {
+        R1 = new Resume(UUID_1, "Name1");
+        R2 = new Resume(UUID_2, "Name2");
+        R3 = new Resume(UUID_3, "Name3");
+        R4 = new Resume(UUID_4, "Name4");
+
+        R1.addContact(ContactType.MAIL, "mail@gmail.com");
+        R1.addContact(ContactType.PHONE, "1111111111");
+        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
+        R1.addSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
+        R1.addSection(SectionType.EXPERIENCE,
+                new OrganizationSection(
+                        new Organization("Organization1", "http://Organization1.com",
+                                new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
+        R1.addSection(SectionType.EDUCATION,
+                new OrganizationSection(
+                        new Organization("Institute", null,
+                                new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT faculty")),
+                        new Organization("Organization12", "https://Organization12.com")));
+        R2.addContact(ContactType.SKYPE, "skype@gmail.com");
+        R2.addContact(ContactType.PHONE, "222222222222");
+        R2.addSection(SectionType.EXPERIENCE,
+                new OrganizationSection(
+                        new Organization("Organization2", "https://organization2.com",
+                                new Organization.Position(2005, Month.MARCH, "position2", "content2")
+                        )
+                )
+        );
+    }
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -33,16 +65,16 @@ abstract class AbstractStorageTest {
     @BeforeEach
     public void setUp() {
         storage.clear();
-        storage.save(RESUME_1);
-        storage.save(RESUME_2);
-        storage.save(RESUME_3);
+        storage.save(R1);
+        storage.save(R2);
+        storage.save(R3);
     }
 
     @Test
     void save() {
-        storage.save(RESUME_4);
+        storage.save(R4);
         assertSize(4);
-        assertGet(RESUME_4);
+        assertGet(R4);
     }
 
     @Test
@@ -71,16 +103,16 @@ abstract class AbstractStorageTest {
 
     @Test
     void get() {
-        assertGet(RESUME_1);
-        assertGet(RESUME_2);
-        assertGet(RESUME_3);
+        assertGet(R1);
+        assertGet(R2);
+        assertGet(R3);
     }
 
     @Test
     void getAllSorted() {
         List<Resume> list = storage.getAllSorted();
         Assertions.assertEquals(3, list.size());
-        Assertions.assertEquals(list, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+        Assertions.assertEquals(list, Arrays.asList(R1, R2, R3));
     }
 
     @Test()
