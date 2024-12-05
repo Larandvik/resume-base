@@ -1,4 +1,6 @@
 package com.larandvik.webapp.model;
 
-public abstract class Section {
+import java.io.Serializable;
+
+public abstract class Section implements Serializable {
 }

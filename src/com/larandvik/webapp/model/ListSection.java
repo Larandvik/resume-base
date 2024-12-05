@@ -1,13 +1,15 @@
 package com.larandvik.webapp.model;
 
-import java.util.ArrayList;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    private List<String> items = new ArrayList<>();
+    private final List<String> items;
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");

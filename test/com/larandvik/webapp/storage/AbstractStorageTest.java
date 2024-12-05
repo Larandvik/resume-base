@@ -3,15 +3,19 @@ package com.larandvik.webapp.storage;
 import com.larandvik.webapp.exception.ExistStorageException;
 import com.larandvik.webapp.exception.NotExistStorageException;
 import com.larandvik.webapp.model.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("E:\\IDEA_Project\\resume base\\storage");
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid_1";
@@ -79,7 +83,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void shouldThrowExistStorageExceptionWhenSavingExistingKey() {
-        Assertions.assertThrows(ExistStorageException.class,
+        assertThrows(ExistStorageException.class,
                 () -> storage.save(new Resume(UUID_1, "name")));
     }
 
@@ -87,12 +91,12 @@ abstract class AbstractStorageTest {
     void update() {
         Resume newResume = new Resume(UUID_1, "new Name");
         storage.update(newResume);
-        Assertions.assertSame(newResume, storage.get(UUID_1));
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test()
     void shouldThrowNotExistStorageExceptionWhenUpdatingNonExistingKey() {
-        Assertions.assertThrows(NotExistStorageException.class,
+        assertThrows(NotExistStorageException.class,
                 () -> storage.get("dummy"));
     }
 
@@ -111,13 +115,13 @@ abstract class AbstractStorageTest {
     @Test
     void getAllSorted() {
         List<Resume> list = storage.getAllSorted();
-        Assertions.assertEquals(3, list.size());
-        Assertions.assertEquals(list, Arrays.asList(R1, R2, R3));
+        assertEquals(3, list.size());
+        assertEquals(list, Arrays.asList(R1, R2, R3));
     }
 
     @Test()
     void shouldThrowNotExistStorageExceptionWhenGettingNonExistingKey() {
-        Assertions.assertThrows(NotExistStorageException.class,
+        assertThrows(NotExistStorageException.class,
                 () -> storage.get("dummy"));
     }
 
@@ -129,7 +133,7 @@ abstract class AbstractStorageTest {
 
     @Test()
     void shouldThrowNotExistStorageExceptionWhenDeletingNonExistingKey() {
-        Assertions.assertThrows(NotExistStorageException.class,
+        assertThrows(NotExistStorageException.class,
                 () -> storage.get("dummy"));
     }
 
@@ -140,10 +144,10 @@ abstract class AbstractStorageTest {
     }
 
     private void assertGet(Resume resume) {
-        Assertions.assertEquals(resume, storage.get(resume.getUuid()));
+        assertEquals(resume, storage.get(resume.getUuid()));
     }
 
     private void assertSize(int size) {
-        Assertions.assertEquals(size, storage.size());
+        assertEquals(size, storage.size());
     }
 }
