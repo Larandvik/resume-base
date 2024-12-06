@@ -2,30 +2,31 @@ package com.larandvik.webapp.storage;
 
 import com.larandvik.webapp.exception.StorageException;
 import com.larandvik.webapp.model.Resume;
+import com.larandvik.webapp.storage.serializer.StreamSerializerStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
+    private final StreamSerializerStrategy serializer;
 
-    protected AbstractFileStorage(File directory) {
+    protected FileStorage(File directory, StreamSerializerStrategy serializer) {
         Objects.requireNonNull(directory, "directory must not be null");
+
+        this.directory = directory;
+        this.serializer = serializer;
+
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not a directory");
         }
         if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable");
         }
-        this.directory = directory;
     }
-
-    protected abstract void doWrite(Resume resume, OutputStream os) throws IOException;
-
-    protected abstract Resume doRead(InputStream is) throws IOException;
 
     @Override
     protected File getSearchKey(String uuid) {
@@ -45,7 +46,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume resume, File file) {
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Couldn't update file " + file.getAbsolutePath(), file.getName(), e);
         }
@@ -54,7 +55,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return serializer.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Couldn't read file " + file.getAbsolutePath(), file.getName(), e);
         }
