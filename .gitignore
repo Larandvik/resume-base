@@ -3,5 +3,8 @@ out
 *.iml
 log
 /target/
+/storage/*
+!/storage/.gitkeep
+
 
 
