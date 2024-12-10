@@ -9,7 +9,7 @@ public class OrganizationSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<Organization> organizations;
+    private List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "organizations must not be null");
@@ -20,13 +20,15 @@ public class OrganizationSection extends Section {
         this(Arrays.asList(organizations));
     }
 
+    public OrganizationSection() {
+    }
+
     public List<Organization> getOrganizations() {
         return organizations;
     }
 
     @Override
     public boolean equals(Object o) {
-
         if (o == null || getClass() != o.getClass()) return false;
 
         OrganizationSection that = (OrganizationSection) o;
@@ -36,10 +38,5 @@ public class OrganizationSection extends Section {
     @Override
     public int hashCode() {
         return organizations.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return organizations.toString();
     }
 }

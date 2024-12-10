@@ -9,7 +9,7 @@ public class ListSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<String> items;
+    private List<String> items;
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");
@@ -18,6 +18,9 @@ public class ListSection extends Section {
 
     public ListSection(String... items) {
         this(Arrays.asList(items));
+    }
+
+    public ListSection() {
     }
 
     public List<String> getItems() {
