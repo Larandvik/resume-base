@@ -6,7 +6,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Initial resume class
@@ -25,6 +28,9 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
+    public Resume() {
+    }
+
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -36,18 +42,20 @@ public class Resume implements Comparable<Resume>, Serializable {
         this.fullName = fullName;
     }
 
-    public Resume() {    }
-
     public String getUuid() {
         return uuid;
     }
 
-    public void addContact(ContactType contactType, String contact) {
-        contacts.put(contactType, contact);
+    public String getFullName() {
+        return fullName;
     }
 
-    public void addSection(SectionType sectionType, Section section) {
-        sections.put(sectionType, section);
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 
     public String getContact(ContactType type) {
@@ -56,6 +64,14 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public Section getSection(SectionType type) {
         return sections.get(type);
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
     }
 
     @Override
@@ -76,10 +92,7 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     @Override
     public String toString() {
-        return "Resume{" +
-               "uuid='" + uuid + '\'' +
-               ", fullName='" + fullName + '\'' +
-               '}';
+        return uuid + '(' + fullName + ')';
     }
 
     @Override

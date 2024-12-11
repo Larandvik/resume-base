@@ -1,10 +1,14 @@
 package com.larandvik.webapp.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+
 import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrganizationSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,5 +42,10 @@ public class OrganizationSection extends Section {
     @Override
     public int hashCode() {
         return organizations.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return organizations.toString();
     }
 }
