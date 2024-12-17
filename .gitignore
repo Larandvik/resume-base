@@ -1,10 +1,10 @@
 .idea
 out
 *.iml
-log
+*.log
 /target/
 /storage/*
 !/storage/.gitkeep
-
+*.xml
 
 
