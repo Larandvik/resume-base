@@ -2,26 +2,28 @@ package com.larandvik.webapp.storage;
 
 import com.larandvik.webapp.exception.ExistStorageException;
 import com.larandvik.webapp.exception.NotExistStorageException;
-import com.larandvik.webapp.model.*;
+import com.larandvik.webapp.model.Resume;
+import com.larandvik.webapp.util.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("E:\\IDEA_Project\\resume-base\\storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
-    private static final String UUID_1 = "uuid_1";
-    private static final String UUID_2 = "uuid_2";
-    private static final String UUID_3 = "uuid_3";
-    private static final String UUID_4 = "uuid_4";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume R1;
     private static final Resume R2;
@@ -34,32 +36,32 @@ abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R1.addContact(ContactType.MAIL, "mail@gmail.com");
-        R1.addContact(ContactType.PHONE, "1111111111");
-        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
-        R1.addSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
-        R1.addSection(SectionType.EXPERIENCE,
-                new OrganizationSection(
-                        new Organization("Organization1", "http://Organization1.com",
-                                new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
-                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-        R1.addSection(SectionType.EDUCATION,
-                new OrganizationSection(
-                        new Organization("Institute", null,
-                                new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
-                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT faculty")),
-                        new Organization("Organization12", "https://Organization12.com")));
-        R2.addContact(ContactType.SKYPE, "skype@gmail.com");
-        R2.addContact(ContactType.PHONE, "222222222222");
-        R2.addSection(SectionType.EXPERIENCE,
-                new OrganizationSection(
-                        new Organization("Organization2", "https://organization2.com",
-                                new Organization.Position(2005, Month.MARCH, "position2", "content2")
-                        )
-                )
-        );
+//        R1.addContact(ContactType.MAIL, "mail@gmail.com");
+//        R1.addContact(ContactType.PHONE, "1111111111");
+//        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+//        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
+//        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
+//        R1.addSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
+//        R1.addSection(SectionType.EXPERIENCE,
+//                new OrganizationSection(
+//                        new Organization("Organization1", "http://Organization1.com",
+//                                new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
+//                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
+//        R1.addSection(SectionType.EDUCATION,
+//                new OrganizationSection(
+//                        new Organization("Institute", null,
+//                                new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
+//                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT faculty")),
+//                        new Organization("Organization12", "https://Organization12.com")));
+//        R2.addContact(ContactType.SKYPE, "skype@gmail.com");
+//        R2.addContact(ContactType.PHONE, "222222222222");
+//        R2.addSection(SectionType.EXPERIENCE,
+//                new OrganizationSection(
+//                        new Organization("Organization2", "https://organization2.com",
+//                                new Organization.Position(2005, Month.MARCH, "position2", "content2")
+//                        )
+//                )
+//        );
     }
 
     protected AbstractStorageTest(Storage storage) {
