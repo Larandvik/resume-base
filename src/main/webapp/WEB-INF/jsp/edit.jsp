@@ -29,7 +29,7 @@
         <input type="text" name="section" size=30 value="2"><br/>
         <input type="text" name="section" size=30 value="3"><br/>
         <hr>
-        <button type="submit">Сохранить</button>
+        <button type="submit">Save</button>
         <button onclick="window.history.back()">Cancel</button>
     </form>
 </section>
