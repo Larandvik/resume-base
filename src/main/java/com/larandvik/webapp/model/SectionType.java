@@ -1,12 +1,14 @@
 package com.larandvik.webapp.model;
 
 public enum SectionType {
-    PERSONAL("Personal"),
+
     OBJECTIVE("Objective"),
+    PERSONAL("Personal"),
     ACHIEVEMENT("Achievements"),
     QUALIFICATION("Qualification"),
     EXPERIENCE("Experience"),
-    EDUCATION("Education"),;
+    EDUCATION("Education"),
+    ;
 
     private final String title;
 

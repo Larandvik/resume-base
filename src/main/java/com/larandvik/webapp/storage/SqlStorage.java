@@ -217,18 +217,19 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void addContact(ResultSet rs, Resume resume) throws SQLException {
+    private void addContact(ResultSet rs, Resume r) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
-            resume.addContact(ContactType.valueOf(rs.getString("type")), value);
+            r.setContact(ContactType.valueOf(rs.getString("type")), value);
         }
     }
 
-    private void addSection(ResultSet rs, Resume resume) throws SQLException {
+
+    private void addSection(ResultSet rs, Resume r) throws SQLException {
         String content = rs.getString("content");
         if (content != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
-            resume.addSection(type, JsonParser.read(content, Section.class));
+            r.setSection(type, JsonParser.read(content, Section.class));
         }
     }
 }
